@@ -50,15 +50,15 @@ ggplot(dailysum, aes(x = steps)) +
 ```
 
 ### 3.	Calculate and report the mean and median of the total number of steps taken per day
-```{r}
+```{r echo=TRUE}
 #calculate and report mean of the total number of steps per day
-dailymean<-aggregate(steps ~ date, MyData, mean)
+steps_mean   <- mean(dailysum$steps, na.rm=TRUE)
 
 #calculate and report median of the total number of steps per day
-dailymedian<-aggregate(steps ~ date, MyData, median)
+steps_median <- median(dailysum$steps, na.rm=TRUE)
 
 ```
-
+The mean is 10766.189 and median is 10765.
 
 ## What is the average daily activity pattern?
 ### 1.	Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
@@ -82,7 +82,10 @@ ggplot(steps_per_interval, aes(x=interval, y=steps)) +
 ```{r}
 max_interval <- steps_per_interval[which.max(steps_per_interval$steps),]
 max_interval
+
 ```
+
+The 835th interval has maximum 206 steps.
 
 
 ## Imputing missing values
@@ -93,7 +96,7 @@ Note that there are a number of days/intervals where there are missing values (c
 sumNA2<-sum(!complete.cases(MyData))
 
 ```
-
+The total number of missing values are 2304.
 
 ### 2.	Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
@@ -131,7 +134,7 @@ colnames(fill_steps_per_day) <- c("date","steps")
 ##plotting the histogram
 ggplot(fill_steps_per_day, aes(x = steps)) + 
        geom_histogram(fill = "grey", binwidth = 1000) + 
-        labs(title="Histogram of Steps Taken per Day", 
+        labs(title="Histogram of Steps Taken per Day after missing values were imputed", 
              x = "Number of Steps per Day", y = "Number of times in a day(Count)") + theme_bw() 
 ```
 
